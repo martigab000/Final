@@ -1,0 +1,41 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#parent-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+#us-map-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%; /* Adjust height as needed */
+    display: flex;
+    flex-direction: column;
+}
+#us-map {
+    width: 100%;
+    height: auto;
+}
+.default {
+    fill: #D3D3D3;
+    cursor: pointer;
+    transition: fill 0.3s;
+}
+.highlighted {
+    fill: #000000;
+}
+path:hover, circle:hover {
+    stroke: #002868 !important;
+    stroke-width:2px;
+    stroke-linejoin: round;
+    fill: #002868 !important;
+    cursor: pointer;
+}

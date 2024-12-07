@@ -1,0 +1,84 @@
+#search-container {
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+#search-container input[type="text"] {
+    width: 300px;
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Style for the search button */
+#search-container button {
+    padding: 8px 16px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#search-container button:last-child {
+    background-color: #6c757d;
+    margin-right: 0;
+}
+
+/* Style for multiple selection dropdowns (State and Energy) */
+select[multiple] {
+    width: 300px;
+    height: 200px;  /* Increase height for better visibility of options */
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;  /* Make sure padding and border are included in width/height */
+    margin-bottom: 10px; /* Space between dropdowns */
+}
+
+/* Style for labels to make them more prominent */
+form .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+select[multiple] option:checked {
+    background-color: #007bff; /* Highlight background */
+    color: rgb(192, 47, 47); /* Text color for selected options */
+}
+
+/* Style for the form container */
+.advanced-search {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+/* Style for the toggle button */
+.toggle-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 10px 0;
+}
+
+.toggle-button:hover {
+    background-color: #0056b3;
+}

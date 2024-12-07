@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Link to the CSS file -->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css') }}">
+
+<div class="container">
+    <h1 class="search-title">Search Results for "{{ query }}"</h1>
+    
+    {% if results %}
+        <!-- Search results list -->
+        <ul class="search-results">
+            {% for result in results %}
+            <li class="search-item">
+                <form action="{{ url_for('main.track_click') }}" method="post" class="click-form">
+                    <input type="hidden" id="link_id" name="link_id" value="{{ result }}">
+                    <button type="submit" class="link-button">
+                        {{ result.url }}
+                    </button>
+                </form>
+                <!-- Uncomment to display click counts -->
+                <span class="click-count">(Score: {{ result.score }})</span>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            {% if page > 1 %}
+                <a href="{{ url_for('main.search_results', query=query, page=page-1) }}" class="pagination-button">Previous</a>
+            {% endif %}
+            {% if has_next %}
+                <a href="{{ url_for('main.search_results', query=query, page=page+1) }}" class="pagination-button">Next</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <!-- No results message -->
+        <p class="no-results">No results found for "{{ query }}".</p>
+    {% endif %}
+    
+    <!-- Back to home link -->
+    <a href="/" class="back-link">Go back to home</a>
+</div>
+{% endblock %}

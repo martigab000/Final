@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css') }}">
+<div class="container">
+    <h1>Search Results for "{{ query }}"</h1>
+    {% if results %}
+        <ul>
+            {% for result in results %}
+            <li>
+                <form action="{{ url_for('main.track_click') }}" method="post" style="display:inline;">
+                    <input type="hidden" id="link_id" name="link_id" value="{{ result }}"> <!-- Adjust based on your unique identifier -->
+                    <button type="submit" class="link-button" style="background:none; border:none; color:blue; text-decoration:underline; cursor:pointer;">
+                        {{ result.url }}
+                    </button>
+                </form>
+                <!-- <span> (Clicks: {{ result.clicks }})</span> -->
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="pagination">
+            {% if page > 1 %}
+                <a href="{{ url_for('main.search_results', query=query, page=page-1) }}" class="pagination-button">Previous</a>
+            {% endif %}
+            {% if has_next %}
+                <a href="{{ url_for('main.search_results', query=query, page=page+1) }}" class="pagination-button">Next</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+    <a href="/">Go back to home</a>
+</div>
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <style>
+        .chart-container {
+        width: 800px;
+        height: 800px;
+        position: relative;
+        }
+        .pie-chart {
+        width: 100%;
+        height: 100%;
+        clip-path: url(#washingtonClip);
+        }
+    </style>
+
+    <h1>Welcome to Washington!</h1>
+    <div class="chart-container">
+        <svg id="statePieChart" width="500" height="500">
+            <!-- Clip path for Washington state -->
+            <defs>
+                <clipPath id="washingtonClip">
+                    <path id="washington" data-info="<div>State: Washington</div><div>Capital: Olympia</div>" d="M267.6,106.4l4.4,1.5l9.7,2.7l8.6,1.9l20,5.7l23,5.7l15.2,3.4l-1,3.9l-4.1,13.8l-4.5,20.8   l-3.2,16.1l-0.4,9.4l-13.2-3.9l-15.6-3.4l-13.7,0.6l-1.6-1.5l-5.3,1.9l-4-0.3l-2.7-1.8l-1.6,0.5l-4.2-0.2l-1.9-1.4l-4.8-1.7   l-1.4-0.2l-5-1.3l-1.8,1.5l-5.7-0.3l-4.8-3.8l0.2-0.8l0.1-7.9l-2.1-3.9l-4.1-0.7l-0.4-2.4l-2.5-0.6l-2.9-0.5l-1.8,1l-2.3-2.9   l0.3-2.9l2.7-0.3l1.6-4l-2.6-1.1l0.2-3.7l4.4-0.6l-2.7-2.7l-1.5-7.1l0.6-2.9v-7.9l-1.8-3.2l2.3-9.4l2.1,0.5l2.4,2.9l2.7,2.6   l3.2,1.9l4.5,2.1l3.1,0.6l2.9,1.5l3.4,1l2.3-0.2v-2.4l1.3-1.1l2.1-1.3l0.3,1.1l0.3,1.8l-2.3,0.5l-0.3,2.1l1.8,1.5l1.1,2.4l0.6,1.9   l1.5-0.2l0.2-1.3l-1-1.3l-0.5-3.2l0.8-1.8l-0.6-1.5V119l1.8-3.6l-1.1-2.6l-2.4-4.8l0.3-0.8L267.6,106.4z M258.1,112.3l2-0.2   l0.5,1.4l1.5-1.6h2.3l0.8,1.5l-1.5,1.7l0.6,0.8l-0.7,2l-1.4,0.4c0,0-0.9,0.1-0.9-0.2s1.5-2.6,1.5-2.6l-1.7-0.6l-0.3,1.5l-0.7,0.6   l-1.5-2.3L258.1,112.3z"/>
+                </clipPath>
+            </defs>
+        
+            <!-- Group for clipped content -->
+            <!-- <g clip-path="url(#washingtonClip)">
+                <g id="pieChartGroup"></g>
+            </g> -->
+
+            <g class="pie-chart">
+                <circle cx="250" cy="250" r="200" fill="#FFFFFF" />
+            </g>
+        
+            <!-- Optional border for state shape -->
+            <!-- <path d="M50,10 L450,10 L450,200 L350,300 L150,300 L50,200 Z" 
+                fill="none" stroke="black" stroke-width="2" /> -->
+        </svg>
+    </div>
+
+    <p>This is the Washington state page with a dynamic pie chart.</p>
+    <a href="/">Go back to home</a>
+
+    <script>
+        const pie_data = [
+          { label: 'renewable', value: 0, color: '#FF1733' },
+          { label: 'solar', value: 16, color: '#33FF51' },
+          { label: 'wind', value: 0, color: '#3357AF' },
+          { label: 'hydro', value: 13, color: '#FF5713' },
+          { label: 'nuclear', value: 0, color: '#31FF57' },
+          { label: 'coal', value: 25, color: '#3354FF' },
+          { label: 'gas', value: 0, color: '#FF5733' },
+          { label: 'oil', value: 0, color: '#33FF57' },
+          { label: 'petroleum', value: 0, color: '#3357FF' }
+        ];
+    
+        function drawStateShapedPieChart(data) {
+            const svgGroup = document.getElementById("pieChartGroup");
+            svgGroup.innerHTML = ''; // Clear previous content
+
+            // Calculate the total value of all slices
+            const total = data.reduce((sum, item) => sum + item.value, 0);
+            if (total === 0) return;
+
+            const svg = svgGroup.closest('svg'); // Get the closest SVG element
+            const svgWidth = svg.getAttribute('width') || 500; // Default width if not set
+            const svgHeight = svg.getAttribute('height') || 500; // Default height if not set
+
+            const centerX = svgWidth / 2; // Center of the pie chart
+            const centerY = svgHeight / 2; // Center of the pie chart
+            const radius = Math.min(svgWidth, svgHeight) * 0.4; // Adjust radius dynamically
+
+            let startAngle = 0;
+
+            data.forEach((slice) => {
+                if (slice.value > 0) {
+                    const sliceAngle = (slice.value / total) * 360;
+                    const endAngle = startAngle + sliceAngle;
+
+                    // Convert polar to Cartesian coordinates
+                    const startX = centerX + radius * Math.cos((startAngle - 90) * (Math.PI / 180));
+                    const startY = centerY + radius * Math.sin((startAngle - 90) * (Math.PI / 180));
+                    const endX = centerX + radius * Math.cos((endAngle - 90) * (Math.PI / 180));
+                    const endY = centerY + radius * Math.sin((endAngle - 90) * (Math.PI / 180));
+
+                    // Large arc flag (greater than 180 degrees)
+                    const largeArc = sliceAngle > 180 ? 1 : 0;
+
+                    // Create the path for the pie slice
+                    const pathData = `
+                    M ${centerX} ${centerY}
+                    L ${startX} ${startY}
+                    A ${radius} ${radius} 0 ${largeArc} 1 ${endX} ${endY}
+                    Z
+                    `;
+
+                    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    path.setAttribute("d", pathData);
+                    path.setAttribute("fill", slice.color);
+                    path.setAttribute("stroke", "#fff");
+                    path.setAttribute("stroke-width", "1");
+
+                    // Add the path to the pie chart group
+                    svgGroup.appendChild(path);
+
+                    startAngle = endAngle;
+                }
+            });
+        }
+    
+        // Initial draw
+        drawStateShapedPieChart(pie_data);
+    </script>
+
+
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dynamic data passed from Flask (ensure safe JSON conversion and escape characters)
+            const pieData = JSON.parse(`{{ pie_data | tojson | safe }}`);
+
+            // Check if pieData is valid
+            if (!Array.isArray(pieData) || pieData.length === 0) {
+                console.error("Pie data is invalid or empty.");
+                return;
+            }
+
+            // Set up SVG dimensions
+            const svg = document.getElementById('pie-chart');
+            const width = 400;
+            const height = 400;
+            const radius = Math.min(width, height) / 2;
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            svg.setAttribute('width', width);
+            svg.setAttribute('height', height);
+
+            // Calculate total value
+            const total = pieData.reduce((sum, segment) => sum + segment.value, 0);
+
+            // Check if total is greater than zero
+            if (total <= 0) {
+                console.error("Total value for pie chart is zero or negative.");
+                return;
+            }
+
+            const nonZeroSegments = pieData.filter(segment => segment.value > 0);
+
+            // Special case: only one segment with a non-zero value
+            if (nonZeroSegments.length === 1) {
+                const segment = nonZeroSegments[0];
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', centerX);
+                circle.setAttribute('cy', centerY);
+                circle.setAttribute('r', radius);
+                circle.setAttribute('fill', segment.color || '#CCCCCC');
+                circle.setAttribute('data-label', segment.label || 'unknown');
+                circle.setAttribute('data-value', segment.value || 0);
+
+                // Tooltip on hover
+                circle.addEventListener('mouseenter', function () {
+                    console.log(`${segment.label}: ${segment.value}`);
+                });
+
+                svg.appendChild(circle);
+                return; // Skip the rest of the rendering
+            }
+
+            let currentAngle = 0;
+
+            // Generate the pie chart slices
+            pieData.forEach(segment => {
+                if (segment.value === 0) return; // Skip segments with no value
+
+                const sliceAngle = (segment.value / total) * 2 * Math.PI;
+                const x1 = centerX + radius * Math.cos(currentAngle);
+                const y1 = centerY + radius * Math.sin(currentAngle);
+                const x2 = centerX + radius * Math.cos(currentAngle + sliceAngle);
+                const y2 = centerY + radius * Math.sin(currentAngle + sliceAngle);
+
+                // Large arc flag for angles > 180 degrees
+                const largeArcFlag = sliceAngle > Math.PI ? 1 : 0;
+
+                // Create the path data
+                const pathData = `
+                    M ${centerX},${centerY}
+                    L ${x1},${y1}
+                    A ${radius},${radius} 0 ${largeArcFlag},1 ${x2},${y2}
+                    Z
+                `;
+
+                // Create an SVG path element
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', pathData.trim());
+                path.setAttribute('fill', segment.color || '#CCCCCC'); // Default color if missing
+                path.setAttribute('data-label', segment.label || 'unknown');
+                path.setAttribute('data-value', segment.value || 0);
+
+                // Tooltip on hover
+                path.addEventListener('mouseenter', function () {
+                    console.log(`${segment.label}: ${segment.value}`);
+                });
+
+                svg.appendChild(path);
+
+                currentAngle += sliceAngle;
+            });
+        });
+    </script> -->
+{% endblock %}

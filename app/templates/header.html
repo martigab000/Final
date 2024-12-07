@@ -1,0 +1,284 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/header.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<style>
+    /* Button styling */
+    .toggle-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        margin: 10px 0;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+
+    .toggle-button:hover {
+        background-color: #317034;
+    }
+
+    /* Overlay styling */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: none; /* Hidden by default */
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    /* Advanced search form styling */
+    .advanced-search {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        z-index: 1001;
+    }
+
+    /* Close button styling */
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #ff4444;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 50%;
+    }
+
+    /* Form input styling */
+    .form-group {
+        margin-bottom: 15px;
+        border-radius: 10px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    #search-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        margin: 10px 0;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+
+    #search-btn:hover {
+        background-color: #317034;
+
+    }
+
+    #search-bar {
+        width: 50%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
+</style>
+
+<style>
+    /* Style for the checkboxes to stack the label above each checkbox */
+    .checkbox-row {
+        display: flex;
+        flex-wrap: wrap; /* Allow items to wrap into the next line if needed */
+        gap: 20px; /* Space between the checkbox items */
+    }
+
+    .checkbox-item {
+        display: flex;
+        flex-direction: column; /* Stack the label above the checkbox */
+        align-items: center; /* Center the label and checkbox */
+    }
+
+    .checkbox-item input[type="checkbox"] {
+        margin-bottom: 5px; /* Space between checkbox and label */
+        transform: scale(1.2); /* Optional: Makes the checkboxes slightly larger */
+    }
+
+    .checkbox-item label {
+        font-size: 14px; /* Optional: Adjust the font size of the labels */
+    }
+</style>
+
+<div id="search-container">
+    <form action="/search" method="post">
+        <input type="text" name="search" id="search-bar" placeholder="Search about power" />
+        <button type="submit" id="search-btn">Search</button>
+    </form>
+
+    <button class="toggle-button" onclick="toggleAdvancedSearch()" id="advanced-search">Advanced</button>
+    <div class="overlay" id="overlay">
+
+        <!-- Toggle button for advanced search
+        <button class="toggle-button" onclick="toggleAdvancedSearch()">Advanced Search</button> -->
+
+        <!-- Advanced Search Form -->
+        <div class="advanced-search" id="advancedSearchForm">
+            <button class="toggle-button" onclick="toggleAdvancedSearch()" id="advanced-search">x</button>
+            <form action="/advanced_search" method="post">
+
+                <!-- Input fields -->
+                <div class="form-group">
+                    <label for="keywords">Keywords:</label>
+                    <input type="text" id="keywords" name="keywords" placeholder="Enter keywords...">
+                </div>
+
+                <!-- Dropdown field -->
+                <div class="form-group">
+                    <label for="state">State:</label>
+                    <select id="state" name="state[]" multiple style="width: 100%">
+                        <option value="all">All Categories</option>
+                        <option value="alabama">Alabama</option>
+                        <option value="alaska">Alaska</option>
+                        <option value="arizona">Arizona</option>
+                        <option value="arkansas">Arkansas</option>
+                        <option value="california">California</option>
+                        <option value="colorado">Colorado</option>
+                        <option value="connecticut">Connecticut</option>
+                        <option value="delaware">Delaware</option>
+                        <option value="florida">Florida</option>
+                        <option value="georgia">Georgia</option>
+                        <option value="hawaii">Hawaii</option>
+                        <option value="idaho">Idaho</option>
+                        <option value="illinois">Illinois</option>
+                        <option value="indiana">Indiana</option>
+                        <option value="iowa">Iowa</option>
+                        <option value="kansas">Kansas</option>
+                        <option value="kentucky">Kentucky</option>
+                        <option value="louisiana">Louisiana</option>
+                        <option value="maine">Maine</option>
+                        <option value="maryland">Maryland</option>
+                        <option value="massachusetts">Massachusetts</option>
+                        <option value="michigan">Michigan</option>
+                        <option value="minnesota">Minnesota</option>
+                        <option value="mississippi">Mississippi</option>
+                        <option value="missouri">Missouri</option>
+                        <option value="montana">Montana</option>
+                        <option value="nebraska">Nebraska</option>
+                        <option value="nevada">Nevada</option>
+                        <option value="newHampshire">New Hampshire</option>
+                        <option value="newJersey">New Jersey</option>
+                        <option value="newMexico">New Mexico</option>
+                        <option value="newYork">New York</option>
+                        <option value="northCarolina">North Carolina</option>
+                        <option value="northDakota">North Dakota</option>
+                        <option value="ohio">Ohio</option>
+                        <option value="oklahoma">Oklahoma</option>
+                        <option value="oregon">Oregon</option>
+                        <option value="pennsylvania">Pennsylvania</option>
+                        <option value="rhodeIsland">Rhode Island</option>
+                        <option value="southCarolina">South Carolina</option>
+                        <option value="southDakota">South Dakota</option>
+                        <option value="tennessee">Tennessee</option>
+                        <option value="texas">Texas</option>
+                        <option value="utah">Utah</option>
+                        <option value="vermont">Vermont</option>
+                        <option value="virginia">Virginia</option>
+                        <option value="washington">Washington</option>
+                        <option value="westVirginia">West Virginia</option>
+                        <option value="wisconsin">Wisconsin</option>
+                        <option value="wyoming">Wyoming</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="energy">Energy Type:</label>
+                    <select id="energy" name="energy[]" multiple style="width: 100%">
+                        <option value="all">All Categories</option>
+                        <option value="solar">Solar</option>
+                        <option value="wind">Wind</option>
+                        <option value="hydro">Hydro</option>
+                        <option value="coal">Coal</option>
+                        <option value="nuclear">Nuclear</option>
+                        <option value="gas">Gas</option>
+                        <option value="oil">Oil</option>
+                        <option value="petroleum">Petroleum</option>
+                        <option value="renewable">Renewable</option>
+                    </select>
+                </div>
+
+                <!-- New checkboxes at the bottom -->
+                <div class="form-group">
+                    <label>Ranking Methods:</label>
+                    <div class="checkbox-row">
+                        <div class="checkbox-item">
+                            <input type="radio" id="bm25" name="ranking" value="BM-25">
+                            <label for="bm25">BM-25</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="radio" id="tfidf" name="ranking" value="TF-IDF">
+                            <label for="tfidf">TF-IDF</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="radio" id="pagerank" name="ranking" value="Page_Rank">
+                            <label for="pagerank">Page Rank</label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Submit button -->
+                <button type="submit" class="toggle-button">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAdvancedSearch() {
+        const overlay = document.getElementById('overlay');
+        overlay.style.display = (overlay.style.display === 'none' || overlay.style.display === '') ? 'flex' : 'none';
+    }
+
+    $(document).ready(function() {
+        // Initialize Select2 for state and energy selects
+        $('#state').select2();
+        $('#energy').select2();
+    });
+</script>
+
+<!-- <script>
+    // This function ensures the options remain highlighted when selected.
+    document.querySelectorAll('select[multiple]').forEach(select => {
+        select.addEventListener('change', function() {
+            const selectedOptions = Array.from(select.selectedOptions);
+            selectedOptions.forEach(option => {
+                option.style.backgroundColor = '#007bff'; // Highlight selected option
+                option.style.color = 'white'; // Change the text color
+            });
+        });
+    });
+</script> -->

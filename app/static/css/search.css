@@ -1,0 +1,135 @@
+/* General layout styling */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #202124;
+}
+
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+h1 {
+    font-size: 20px;
+    color: #202124;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* Search results list styling */
+.results-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.result-item {
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+/* Link styling */
+.result-link {
+    font-size: 18px;
+    color: #1a0dab;
+    text-decoration: none;
+    display: block;
+}
+
+.result-link:hover {
+    text-decoration: underline;
+    color: #1a73e8;
+}
+
+/* URL preview styling */
+.result-url {
+    font-size: 14px;
+    color: #006621;
+    margin: 5px 0;
+    display: block;
+}
+
+.result-snippet {
+    font-size: 14px;
+    color: #4d5156;
+    line-height: 1.6;
+}
+
+/* Pagination styling */
+.pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.pagination-button {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 10px 15px;
+    background-color: #1a73e8;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.pagination-button:hover {
+    background-color: #0056b3;
+}
+
+/* No results message */
+.no-results {
+    text-align: center;
+    font-size: 18px;
+    color: #5f6368;
+    margin-top: 20px;
+}
+
+/* Back to home link */
+.back-link {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #1a73e8;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.back-link:hover {
+    color: #0056b3;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    color: #1a0dab;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.search-results {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.search-item {
+    margin-bottom: 15px;
+}

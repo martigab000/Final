@@ -1,0 +1,5 @@
+https://github.com/WebsiteBeaver/interactive-and-responsive-svg-map-of-us-states-capitals
+
+Issues:
+    Ran into multiple issues with scraped data and whoosh. cleaning and storing for use later became an issue. Whoosh does not like stored lists.
+    

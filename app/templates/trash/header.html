@@ -1,0 +1,131 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/header.css') }}">
+<style>
+    /* Button styling */
+    .toggle-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        margin: 10px 0;
+        font-size: 16px;
+    }
+
+    /* Overlay styling */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: none; /* Hidden by default */
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    /* Advanced search form styling */
+    .advanced-search {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        z-index: 1001;
+    }
+
+    /* Close button styling */
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #ff4444;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 50%;
+    }
+
+    /* Form input styling */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+</style>
+
+<div id="search-container">
+    <form action="/search" method="POST">
+        <input type="text" name="search" id="search-bar" placeholder="Search about power" />
+        <button type="submit" id="search-btn">Search</button>
+    </form>
+
+    <button class="toggle-button" onclick="toggleAdvancedSearch()" id="advanced-search">Advanced</button>
+    <div class="overlay" id="overlay">
+
+        <!-- Toggle button for advanced search
+        <button class="toggle-button" onclick="toggleAdvancedSearch()">Advanced Search</button> -->
+
+        <!-- Advanced Search Form -->
+        <div class="advanced-search" id="advancedSearchForm">
+            <button class="toggle-button" onclick="toggleAdvancedSearch()" id="advanced-search">x</button>
+            <form>
+                <!-- Dropdown field -->
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category">
+                        <option value="all">All Categories</option>
+                        <option value="books">Books</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="sports">Sports</option>
+                    </select>
+                </div>
+
+                <!-- Input fields -->
+                <div class="form-group">
+                    <label for="keywords">Keywords:</label>
+                    <input type="text" id="keywords" name="keywords" placeholder="Enter keywords...">
+                </div>
+
+                <div class="form-group">
+                    <label for="price-min">Price Range:</label>
+                    <input type="number" id="price-min" name="price-min" placeholder="Min Price">
+                    <input type="number" id="price-max" name="price-max" placeholder="Max Price">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location" placeholder="Enter location...">
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="toggle-button">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAdvancedSearch() {
+        const overlay = document.getElementById('overlay');
+        overlay.style.display = (overlay.style.display === 'none' || overlay.style.display === '') ? 'flex' : 'none';
+    }
+</script>
